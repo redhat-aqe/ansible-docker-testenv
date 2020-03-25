@@ -1,0 +1,44 @@
+- name: Build testing images
+  docker_image:
+    name: '{{ item.image }}'
+    source: build
+    build:
+      path: '{{ item.build }}'
+      pull: true
+    force_source: true
+    state: present
+  when: item.build | default('') | length > 0
+  loop: '{{ ansible_testing_hosts }}'
+
+- name: Remove old testing containers
+  docker_container:
+    name: '{{ item.name }}'
+    image: '{{ item.image }}'
+    command: sleep inf
+    state: absent
+  loop: '{{ ansible_testing_hosts }}'
+
+- name: Start testing containers
+  docker_container:
+    name: '{{ item.name }}'
+    image: '{{ item.image }}'
+    command: sleep inf
+    state: started
+  loop: '{{ ansible_testing_hosts }}'
+
+- name: Create network
+  docker_network:
+    name: ansible_testing
+    connected: '{{ ansible_testing_hosts | map(attribute="name") | list }}'
+    state: present
+
+- name: Create testing host
+  add_host:
+    name: '{{ item.name }}'
+    ansible_connection: docker
+    ansible_become_method: su
+  loop: '{{ ansible_testing_hosts }}'
+
+- name: Set fact with list of started containers
+  set_fact:
+    ansible_testing_started_containers: '{{ ansible_testing_hosts | map(attribute="name") | list }}'

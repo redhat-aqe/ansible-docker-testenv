@@ -1,0 +1,14 @@
+- hosts: localhost
+  roles:
+    - role: ansible-testing/setup
+      vars:
+        ansible_testing_hosts:
+          - name: foo
+            image: localhost/foo
+            build: .
+
+- import_playbook: '{{ playbook_dir}}/playbook.yml'
+
+- hosts: localhost
+  roles:
+    - role: ansible-testing/teardown

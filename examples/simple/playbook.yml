@@ -1,0 +1,4 @@
+- hosts: foo
+  tasks:
+    - debug:
+        msg: Excuted in test container. Yay!

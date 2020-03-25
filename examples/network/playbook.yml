@@ -1,0 +1,7 @@
+- hosts: foo
+  tasks:
+    - command: ping -c 2 bar
+
+- hosts: bar
+  tasks:
+    - command: ping -c 2 foo
