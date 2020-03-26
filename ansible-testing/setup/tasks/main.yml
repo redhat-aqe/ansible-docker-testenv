@@ -16,18 +16,16 @@
   when: item.build | default('') | length > 0
   loop: '{{ ansible_testing_hosts }}'
 
-- name: Remove old testing containers
-  docker_container:
-    name: '{{ item.name }}'
-    state: absent
-  loop: '{{ ansible_testing_hosts }}'
-
 - name: Start testing containers
   docker_container:
     name: '{{ item.name }}'
     image: '{{ item.image }}'
+    working_dir: '{{ item.workdir | default(omit) }}'
+    entrypoint: '{{ item.entrypoint | default(omit) }}'
     command: '{{ item.command | default(omit) }}'
+    volumes: '{{ item.volumes | default(omit) }}'
     state: started
+    recreate: true
   loop: '{{ ansible_testing_hosts }}'
 
 - name: Create network
