@@ -6,6 +6,7 @@
           - name: foo
             image: localhost/foo
             build: .
+            command: sleep inf
 
 - import_playbook: '{{ playbook_dir}}/playbook.yml'
 

@@ -1,0 +1,2 @@
+ansible_testing_hosts: []
+ansible_testing_network_name: ansible_testing

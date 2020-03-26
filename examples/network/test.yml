@@ -6,9 +6,11 @@
           - name: foo
             image: localhost/foo
             build: foo
+            command: sleep inf
           - name: bar
             image: localhost/bar
             build: bar
+            command: sleep inf
 
 - import_playbook: '{{ playbook_dir}}/playbook.yml'
 

@@ -1,11 +1,11 @@
 - name: Destroy network
   docker_network:
-    name: ansible_testing
+    name: '{{ ansible_testing_network_name }}'
     state: absent
     force: true
 
 - name: Stop testing container
   docker_container:
-    name: '{{ item }}'
+    name: '{{ item.name }}'
     state: absent
-  loop: '{{ ansible_testing_started_containers }}'
+  loop: '{{ ansible_testing_hosts }}'

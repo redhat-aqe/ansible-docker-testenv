@@ -1,3 +1,9 @@
+# Need them in all plays that are executed on host
+- name: Add role params to facts
+  set_fact:
+    '{{ item }}': '{{ vars[item] }}'
+  loop: '{{ vars.keys() | select("match", "^ansible_testing_") | list }}'
+
 - name: Build testing images
   docker_image:
     name: '{{ item.image }}'
@@ -13,8 +19,6 @@
 - name: Remove old testing containers
   docker_container:
     name: '{{ item.name }}'
-    image: '{{ item.image }}'
-    command: sleep inf
     state: absent
   loop: '{{ ansible_testing_hosts }}'
 
@@ -22,23 +26,25 @@
   docker_container:
     name: '{{ item.name }}'
     image: '{{ item.image }}'
-    command: sleep inf
+    command: '{{ item.command | default(omit) }}'
     state: started
   loop: '{{ ansible_testing_hosts }}'
 
 - name: Create network
   docker_network:
-    name: ansible_testing
+    name: '{{ ansible_testing_network_name }}'
     connected: '{{ ansible_testing_hosts | map(attribute="name") | list }}'
     state: present
+  when: ansible_testing_hosts | length > 1
 
-- name: Create testing host
+- name: Add contaner to inventory
   add_host:
     name: '{{ item.name }}'
     ansible_connection: docker
     ansible_become_method: su
   loop: '{{ ansible_testing_hosts }}'
 
-- name: Set fact with list of started containers
-  set_fact:
-    ansible_testing_started_containers: '{{ ansible_testing_hosts | map(attribute="name") | list }}'
+- name: Check if containers are running
+  command: 'true'
+  delegate_to: '{{ item.name }}'
+  loop: '{{ ansible_testing_hosts }}'
