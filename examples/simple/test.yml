@@ -1,3 +1,4 @@
+# setup environment - build and start docker containers
 - hosts: localhost
   roles:
     - role: ansible-testing/setup
@@ -7,8 +8,26 @@
             image: docker.io/centos:8
             command: sleep inf
 
+
+# launch playbook
 - import_playbook: '{{ playbook_dir}}/playbook.yml'
 
+
+# tests
+- hosts: foo
+  tasks:
+    - command: test -f /tmp/new-file
+
+    - block:
+        - command: test -f /tmp/does-not-exist
+        - fail:
+            msg: FAIL, command should fail
+      rescue:
+        - debug:
+            msg: OK, expected to fail
+
+
+# terdown - stop and remove docker containers
 - hosts: localhost
   roles:
     - role: ansible-testing/teardown

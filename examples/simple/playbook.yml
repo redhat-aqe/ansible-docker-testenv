@@ -2,3 +2,7 @@
   tasks:
     - debug:
         msg: Excuted in test container. Yay!
+
+    - copy:
+        dest: /tmp/new-file
+        content: New File Content
