@@ -4,10 +4,8 @@
       vars:
         ansible_testing_hosts:
           - name: foo
-            image: docker.io/centos:8
-            command: sleep inf
-          - name: bar
-            image: docker.io/centos:8
+            build: .
+            image: localhost/ansible-testing-example-build
             command: sleep inf
 
 - import_playbook: '{{ playbook_dir}}/playbook.yml'
