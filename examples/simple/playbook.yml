@@ -1,8 +1,10 @@
 - hosts: foo
   tasks:
-    - debug:
-        msg: Excuted in test container. Yay!
+    - name: Print host variable
+      debug:
+        msg: '{{ message }}'
 
-    - copy:
+    - name: Create new example file
+      copy:
         dest: /tmp/new-file
         content: New File Content

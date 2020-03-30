@@ -1,0 +1,5 @@
+[foo]
+foo.example.com
+
+[foo:vars]
+message="Hello World from container."

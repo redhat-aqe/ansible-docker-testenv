@@ -1,10 +1,10 @@
 - hosts: localhost
   vars:
     ansible_testing_hosts:
-      - name: foo
+      - name: foo.example.com
         image: docker.io/centos:8
         command: sleep inf
-      - name: bar
+      - name: bar.example.com
         image: docker.io/centos:8
         command: sleep inf
   roles:

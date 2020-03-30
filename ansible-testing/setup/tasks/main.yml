@@ -1,3 +1,12 @@
+- name: Check if all hosts from inventory has matching container
+  fail:
+    msg: 'Hosts {{ _undefined_hosts | join(", ") }} doesn''t have defined containers.'
+  when: _undefined_hosts | length > 0
+  vars:
+    _inventory_hosts: '{{ query("inventory_hostnames", "all:!localhost") }}'
+    _container_hosts: '{{ ansible_testing_hosts | map(attribute="name") | list }}'
+    _undefined_hosts: '{{ _inventory_hosts | difference(_container_hosts) }}'
+
 # Need them in all plays that are executed on host
 - name: Add role params to facts
   set_fact:
