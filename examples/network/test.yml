@@ -1,17 +1,17 @@
 - hosts: localhost
+  vars:
+    ansible_testing_hosts:
+      - name: foo
+        image: docker.io/centos:8
+        command: sleep inf
+      - name: bar
+        image: docker.io/centos:8
+        command: sleep inf
   roles:
-    - role: ansible-testing/setup
-      vars:
-        ansible_testing_hosts:
-          - name: foo
-            image: docker.io/centos:8
-            command: sleep inf
-          - name: bar
-            image: docker.io/centos:8
-            command: sleep inf
+    - ansible-testing/setup
 
 - import_playbook: '{{ playbook_dir}}/playbook.yml'
 
 - hosts: localhost
   roles:
-    - role: ansible-testing/teardown
+    - ansible-testing/teardown

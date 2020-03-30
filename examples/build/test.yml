@@ -1,15 +1,15 @@
 - hosts: localhost
+  vars:
+    ansible_testing_hosts:
+      - name: foo
+        build: .
+        image: localhost/ansible-testing-example-build
+        command: sleep inf
   roles:
-    - role: ansible-testing/setup
-      vars:
-        ansible_testing_hosts:
-          - name: foo
-            build: .
-            image: localhost/ansible-testing-example-build
-            command: sleep inf
+    - ansible-testing/setup
 
 - import_playbook: '{{ playbook_dir}}/playbook.yml'
 
 - hosts: localhost
   roles:
-    - role: ansible-testing/teardown
+    - ansible-testing/teardown
