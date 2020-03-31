@@ -4,6 +4,14 @@
       debug:
         msg: '{{ message }}'
 
+    - name: Get hostname
+      command: hostname
+      register: hostname_cmd
+
+    - name: Print hostname
+      debug:
+        var: hostname_cmd.stdout
+
     - name: Create new example file
       copy:
         dest: /tmp/new-file
