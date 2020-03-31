@@ -10,7 +10,7 @@
 # Need them in all plays that are executed on host
 - name: Add role params to facts
   set_fact:
-    '{{ item }}': '{{ vars[item] }}'
+    '{{ item }}': '{{ lookup("vars", item) }}'
   loop: '{{ vars.keys() | select("match", "^ansible_testing_") | list }}'
 
 - name: Build testing images
