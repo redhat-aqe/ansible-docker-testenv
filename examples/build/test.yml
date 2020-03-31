@@ -2,7 +2,7 @@
   vars:
     ansible_testing_hosts:
       - name: foo.example.com
-        build: .
+        build: '{{ playbook_dir }}'
         image: localhost/ansible-testing-example-build
         command: sleep inf
   roles:
