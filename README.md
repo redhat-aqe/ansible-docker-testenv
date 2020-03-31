@@ -16,7 +16,7 @@ single network so they can communicate with each other.
 
 ## Testing Workflow
 
-1. created environment - docker containers
+1. create environment - docker containers
     * build image from dockerfile
     * create containers and connect them to network
     * create ansible inventory
