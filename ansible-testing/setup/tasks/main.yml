@@ -54,5 +54,6 @@
 
 - name: Check if containers are running
   command: 'true'
+  changed_when: false
   delegate_to: '{{ item.name }}'
   loop: '{{ ansible_testing_hosts }}'

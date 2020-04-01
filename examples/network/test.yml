@@ -10,7 +10,7 @@
   roles:
     - ansible-testing/setup
 
-- import_playbook: '{{ playbook_dir}}/playbook.yml'
+- import_playbook: '{{ playbook_dir }}/playbook.yml'
 
 - hosts: localhost
   roles:
