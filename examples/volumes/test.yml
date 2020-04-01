@@ -1,0 +1,30 @@
+# setup environment - build and start docker containers
+- hosts: localhost
+  vars:
+    # Needed to make bind mounts work when SElinux is enabled.
+    docker_volume_mode: '{{ (ansible_selinux.status == "enabled") | ternary(":Z", "") }}'
+
+    ansible_testing_hosts:
+      - name: foo.example.com
+        image: docker.io/centos:8
+        command: sleep inf
+        volumes:
+          - '{{ playbook_dir }}/mount:/mnt/example{{ docker_volume_mode }}'
+  roles:
+    - ansible-testing/setup
+
+
+# launch playbook
+- import_playbook: '{{ playbook_dir }}/playbook.yml'
+
+
+# tests
+- hosts: foo
+  tasks:
+    - command: test -f /mnt/example/example-file
+
+
+# terdown - stop and remove docker containers
+- hosts: localhost
+  roles:
+    - ansible-testing/teardown
