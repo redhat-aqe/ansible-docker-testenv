@@ -31,6 +31,21 @@ single network so they can communicate with each other.
 4. destroy environment
     * stop and remove containers, remove network
 
+## Parameters
+
+* `ansible_testing_hosts` (list of hosts, default: `[]`) - list of docker
+  containers to build and start
+    * `name` (string, required) - name and hostname of the container
+    * `image` (string, required) - image name
+    * `build` (string, optional) - path to directory with Dockerfile
+    * `workdir` (string, optional) - container working dir
+    * `entrypoint` (string, optional) - container entrypoint
+    * `command` (string, optional) - container command
+    * `volumes` (list of string, optional) - list of mounts, format:
+      `host_path:container_path[:mode]`
+* `ansible_testing_network_name` (string, default: `ansible_testing`) - name of
+  the network to which containers are connected
+
 ## Example
 
 ```yaml
