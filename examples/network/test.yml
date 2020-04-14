@@ -8,10 +8,10 @@
         image: docker.io/centos:8
         command: sleep inf
   roles:
-    - ansible-testing/setup
+    - setup
 
 - import_playbook: '{{ playbook_dir }}/playbook.yml'
 
 - hosts: localhost
   roles:
-    - ansible-testing/teardown
+    - teardown

@@ -11,7 +11,7 @@
         volumes:
           - '{{ playbook_dir }}/mount:/mnt/example{{ docker_volume_mode }}'
   roles:
-    - ansible-testing/setup
+    - setup
 
 
 # launch playbook
@@ -27,4 +27,4 @@
 # terdown - stop and remove docker containers
 - hosts: localhost
   roles:
-    - ansible-testing/teardown
+    - teardown
