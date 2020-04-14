@@ -1,9 +1,9 @@
 - hosts: localhost
   vars:
-    ansible_testing_hosts:
+    docker_testenv_hosts:
       - name: foo.example.com
         build: '{{ playbook_dir }}'
-        image: localhost/ansible-testing-example-build
+        image: localhost/docker_testenv-example-build
         command: sleep inf
   roles:
     - setup

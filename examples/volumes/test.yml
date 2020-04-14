@@ -4,7 +4,7 @@
     # Needed to make bind mounts work when SElinux is enabled.
     docker_volume_mode: '{{ (ansible_selinux.status == "enabled") | ternary(":Z", "") }}'
 
-    ansible_testing_hosts:
+    docker_testenv_hosts:
       - name: foo.example.com
         image: docker.io/centos:8
         command: sleep inf

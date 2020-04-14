@@ -1,2 +1,2 @@
-ansible_testing_hosts: []
-ansible_testing_network_name: ansible_testing
+docker_testenv_hosts: []
+docker_testenv_network_name: docker_testenv

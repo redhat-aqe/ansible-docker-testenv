@@ -1,7 +1,7 @@
 # setup environment - build and start docker containers
 - hosts: localhost
   vars:
-    ansible_testing_hosts:
+    docker_testenv_hosts:
       - name: foo.example.com
         image: docker.io/centos:8
         command: sleep inf

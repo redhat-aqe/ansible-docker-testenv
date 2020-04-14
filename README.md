@@ -1,12 +1,12 @@
  ```
-     ______________________
-    < Ansible Testing Role >          ______
-     ----------------------          < Yay! >
-            \   ^__^                  ------
-             \  (oo)\_______                \   ,__,
-                (__)\       )\/\             \  (oo)____
-                    ||----w |                   (__)    )\
-                    ||     ||                      ||--|| *
+     _____________________________
+    < Ansible docker_testenv Role >       ______
+     -----------------------------       < Yay! >
+            \   ^__^                      ------
+             \  (oo)\_______                 \   ,__,
+                (__)\       )\/\              \  (oo)____
+                    ||----w |                    (__)    )\
+                    ||     ||                       ||--|| *
 ```
 ---
 
@@ -41,7 +41,7 @@ This role contains two sub-roles;
 
 ### Role parameters
 
-* `ansible_testing_hosts` (list of hosts, default: `[]`) - list of docker
+* `docker_testenv_hosts` (list of hosts, default: `[]`) - list of docker
   containers to build and start
     * `name` (string, required) - name and hostname of the container
     * `image` (string, required) - image name
@@ -51,7 +51,7 @@ This role contains two sub-roles;
     * `command` (string, optional) - container command
     * `volumes` (list of string, optional) - list of mounts, format:
       `host_path:container_path[:mode]`
-* `ansible_testing_network_name` (string, default: `ansible_testing`) - name of
+* `docker_testenv_network_name` (string, default: `docker_testenv`) - name of
   the network to which containers are connected
 
 *Note: Setup role stores all parameters to host facts so if setup and teardown
@@ -64,12 +64,12 @@ duplicated to play with teardown role.*
 # setup environment
 - hosts: localhost
   vars:
-    ansible_testing_hosts:
+    docker_testenv_hosts:
       - name: remote.example.com
         image: localhost/test-image:latest
         command: sleep inf
   roles:
-    - ansible-testing/setup
+    - docker_testenv/setup
 
 # run playbook we would like to test
 - include_playbook: playbook.yml
@@ -82,7 +82,7 @@ duplicated to play with teardown role.*
 # teardown environment
 - hosts: localhost
   roles:
-    - ansible-testing/teardown
+    - docker_testenv/teardown
 ```
 
 See also examples in `examples` directory.

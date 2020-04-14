@@ -4,7 +4,7 @@
   when: _undefined_hosts | length > 0
   vars:
     _inventory_hosts: '{{ query("inventory_hostnames", "all:!localhost") }}'
-    _container_hosts: '{{ ansible_testing_hosts | map(attribute="name") | list }}'
+    _container_hosts: '{{ docker_testenv_hosts | map(attribute="name") | list }}'
     _undefined_hosts: '{{ _inventory_hosts | difference(_container_hosts) }}'
 
 # Need them in all plays that are executed on host. Teardown sub-role then can
@@ -12,7 +12,7 @@
 - name: Add role params to facts
   set_fact:
     '{{ item }}': '{{ lookup("vars", item) }}'
-  loop: '{{ vars.keys() | select("match", "^ansible_testing_") | list }}'
+  loop: '{{ vars.keys() | select("match", "^docker_testenv_") | list }}'
 
 - name: Build testing images
   docker_image:
@@ -24,7 +24,7 @@
     force_source: true
     state: present
   when: item.build | default('') | length > 0
-  loop: '{{ ansible_testing_hosts }}'
+  loop: '{{ docker_testenv_hosts }}'
 
 - name: Start testing containers
   docker_container:
@@ -37,24 +37,24 @@
     volumes: '{{ item.volumes | default(omit) }}'
     state: started
     recreate: true
-  loop: '{{ ansible_testing_hosts }}'
+  loop: '{{ docker_testenv_hosts }}'
 
 - name: Create network
   docker_network:
-    name: '{{ ansible_testing_network_name }}'
-    connected: '{{ ansible_testing_hosts | map(attribute="name") | list }}'
+    name: '{{ docker_testenv_network_name }}'
+    connected: '{{ docker_testenv_hosts | map(attribute="name") | list }}'
     state: present
-  when: ansible_testing_hosts | length > 1
+  when: docker_testenv_hosts | length > 1
 
 - name: Add contaner to inventory
   add_host:
     name: '{{ item.name }}'
     ansible_connection: docker
     ansible_become_method: su
-  loop: '{{ ansible_testing_hosts }}'
+  loop: '{{ docker_testenv_hosts }}'
 
 - name: Check if containers are running
   command: 'true'
   changed_when: false
   delegate_to: '{{ item.name }}'
-  loop: '{{ ansible_testing_hosts }}'
+  loop: '{{ docker_testenv_hosts }}'
