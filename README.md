@@ -1,14 +1,4 @@
- ```
-     _____________________________
-    < Ansible docker_testenv Role >       ______
-     -----------------------------       < Yay! >
-            \   ^__^                      ------
-             \  (oo)\_______                 \   ,__,
-                (__)\       )\/\              \  (oo)____
-                    ||----w |                    (__)    )\
-                    ||     ||                       ||--|| *
-```
----
+# Ansible Role docker_testenv
 
 An ansible role to help test ansible playbooks in isolated environment using
 docker containers. Creates docker containers and connects them to single network
@@ -20,7 +10,8 @@ so they can communicate with each other.
     * build image from dockerfile
     * create containers and connect them to network
     * update ansible inventory - set connection to `docker` and become method to
-      `su` (no need to configure sudo in docker image)
+      `su` (no need to configure sudo in docker image), nothing else should be
+      changed in inventory (ie. host and group vars)
 2. launch playbook
     * in created docker container
     * [import_playbook](https://docs.ansible.com/ansible/latest/modules/import_playbook_module.html)
@@ -43,7 +34,8 @@ This role contains two sub-roles;
 
 * `docker_testenv_hosts` (list of hosts, default: `[]`) - list of docker
   containers to build and start
-    * `name` (string, required) - name and hostname of the container
+    * `name` (string, required) - name and hostname of the container,
+      **name must match hostname from inventory**
     * `image` (string, required) - image name
     * `build` (string, optional) - path to directory with Dockerfile
     * `workdir` (string, optional) - container working dir
