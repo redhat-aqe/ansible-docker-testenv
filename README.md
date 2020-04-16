@@ -1,8 +1,8 @@
 # Ansible Role docker_testenv
 
-An ansible role to help test ansible playbooks in isolated environment using
-docker containers. Creates docker containers and connects them to single network
-so they can communicate with each other.
+An Ansible role to help test playbooks in isolated environments using docker
+containers. Role creates docker containers for each inventory host and updates
+inventory to use these containers instead of real hosts.
 
 ## Testing Workflow
 
